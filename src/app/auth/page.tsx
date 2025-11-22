@@ -94,7 +94,7 @@ export default function AuthPage() {
           const startTime = Date.now();
           try {
             await codeReaderRef.current!.decodeFromVideoDevice(
-              undefined,
+              null,
               videoRef.current!,
               (result, error) => {
                 if (result) {
