@@ -38,8 +38,6 @@ body {
     radial-gradient(circle at 80% 0%, rgba(248, 113, 113, 0.25), transparent 35%);
   filter: blur(60px);
   animation: spin-slow 32s linear infinite;
-  will-change: transform;
-  transform: translateZ(0);
 }
 
 .grid-overlay {
@@ -53,8 +51,6 @@ body {
   background-size: 50px 50px;
   mask-image: radial-gradient(circle at center, black 40%, transparent 75%);
   animation: pulse-grid 6s ease-in-out infinite;
-  will-change: opacity;
-  transform: translateZ(0);
 }
 
 .frosted-card {
@@ -66,16 +62,14 @@ body {
 
 .floating {
   animation: float 8s ease-in-out infinite;
-  will-change: transform;
-  transform: translateZ(0);
 }
 
 @keyframes spin-slow {
   from {
-    transform: rotate(0deg) translateZ(0);
+    transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg) translateZ(0);
+    transform: rotate(360deg);
   }
 }
 
@@ -92,9 +86,9 @@ body {
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0px) translateZ(0);
+    transform: translateY(0px);
   }
   50% {
-    transform: translateY(-12px) translateZ(0);
+    transform: translateY(-12px);
   }
 }

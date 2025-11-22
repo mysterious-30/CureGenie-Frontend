@@ -77,8 +77,8 @@ const quickSteps = [
 export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
-      <div className="orbital-gradient" aria-hidden style={{ contentVisibility: "auto" }} />
-      <div className="grid-overlay" aria-hidden style={{ contentVisibility: "auto" }} />
+      <div className="orbital-gradient" aria-hidden />
+      <div className="grid-overlay" aria-hidden />
 
       <main className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-4 pt-16 sm:px-8 lg:flex-row lg:items-center">
         <motion.section
@@ -86,12 +86,10 @@ export default function Home() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          style={{ willChange: "opacity, transform" }}
         >
           <motion.span
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1 text-sm text-cyan-100 shadow-lg shadow-cyan-500/20 backdrop-blur"
             whileHover={{ scale: 1.05 }}
-            style={{ willChange: "transform" }}
           >
             <Sparkles className="h-4 w-4 text-cyan-300" />
             Welcome to the Smart Health Assistance Vending Machine!
