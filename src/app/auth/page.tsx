@@ -3,7 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { BrowserMultiFormatReader } from "@zxing/library";
+import type { BrowserMultiFormatReader } from "@zxing/library";
+
+// Lazy load heavy barcode library
+const loadBarcodeReader = () => 
+  import("@zxing/library").then((mod) => mod.BrowserMultiFormatReader);
 import {
   CheckCircle2,
   XCircle,
@@ -41,10 +45,18 @@ export default function AuthPage() {
   const scanIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    codeReaderRef.current = new BrowserMultiFormatReader();
+    // Lazy load barcode reader only when needed
+    let mounted = true;
+    loadBarcodeReader().then((BrowserMultiFormatReader) => {
+      if (mounted) {
+        codeReaderRef.current = new BrowserMultiFormatReader();
+      }
+    });
+    
     const currentStream = streamRef.current;
     const currentInterval = scanIntervalRef.current;
     return () => {
+      mounted = false;
       if (currentStream) {
         currentStream.getTracks().forEach((t) => t.stop());
       }
