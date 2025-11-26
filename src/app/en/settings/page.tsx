@@ -38,7 +38,7 @@ export default function SettingsPage() {
   useEffect(() => {
     const uid = sessionStorage.getItem("studentId");
     if (uid) {
-      fetch(`/api/student-profile/${encodeURIComponent(uid)}`)
+      fetch(`/api/student-profile?uid=${encodeURIComponent(uid)}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
