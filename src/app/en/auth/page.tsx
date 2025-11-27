@@ -370,27 +370,6 @@ export default function AuthPage() {
         aria-label="Upload Student ID image"
       />
 
-      {/* Dev Upload Button - Bottom left corner */}
-      <button
-        onClick={handleDevUpload}
-        className="fixed bottom-4 left-4 z-50 flex items-center gap-2 rounded-full bg-blue-500/20 border border-blue-500/40 px-3 py-2 opacity-20 transition-all hover:opacity-100 hover:scale-110 hover:bg-blue-500/40"
-        aria-label="Developer upload"
-        title="Dev Upload - Upload ID image for testing"
-      >
-        <Upload className="h-4 w-4 text-blue-400" />
-        <span className="text-xs text-blue-400 font-bold">UPLOAD</span>
-      </button>
-
-      {/* Hidden Dev Bypass Button - Bottom right corner (hover to see) */}
-      <button
-        onClick={handleDevBypass}
-        className="fixed bottom-4 right-4 z-50 h-10 w-10 rounded-full bg-red-500/20 border border-red-500/40 opacity-20 transition-all hover:opacity-100 hover:scale-110 hover:bg-red-500/40"
-        aria-label="Developer bypass"
-        title="Dev Bypass - Click to skip authentication"
-      >
-        <span className="text-xs text-red-400 font-bold">DEV</span>
-      </button>
-
       {/* Verification Animation Overlay */}
       <AnimatePresence>
         {showVerifiedAnimation && (
