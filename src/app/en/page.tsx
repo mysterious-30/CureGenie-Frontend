@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLanguage } from "@/context/LanguageContext";
+
 import {
     Bot,
     Camera,
@@ -21,52 +21,52 @@ import {
 
 export default function Home() {
     const router = useRouter();
-    const { t } = useLanguage();
+
     const [isNavigating, setIsNavigating] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
 
     const essentials = [
-        t("welcome.essentials.1"),
-        t("welcome.essentials.2"),
-        t("welcome.essentials.3"),
+        "Medical-grade bandages and sterile cotton",
+        "Antiseptic wipes, gels, and sprays",
+        "Reusable cold packs and skin-safe tape",
     ];
 
     const previewSteps = [
         {
             id: 1,
-            title: t("preview.step1.title"),
-            description: t("preview.step1.desc"),
+            title: "Verify Yourself",
+            description: "Scan your Student ID to verify your identity securely.",
             icon: Fingerprint,
-            details: t("preview.step1.details"),
+            details: "Quick verification takes less than 3 seconds. Your identity is protected with masked tokens.",
         },
         {
             id: 2,
-            title: t("preview.step2.title"),
-            description: t("preview.step2.desc"),
+            title: "AI Health Analysis",
+            description: "Upload a photo and describe your symptoms for safe first-aid guidance.",
             icon: Bot,
-            details: t("preview.step2.details"),
+            details: "AI gives you step-by-step first-aid instructions tailored to your needs.",
         },
         {
             id: 3,
-            title: t("preview.step3.title"),
-            description: t("preview.step3.desc"),
+            title: "View Recommendations",
+            description: "See AI-assisted first-aid suggestions, severity level, and recommended items.",
             icon: Stethoscope,
-            details: t("preview.step3.details"),
+            details: "Get personalized guidance with confidence indicators and safety alerts for serious cases.",
         },
         {
             id: 4,
-            title: t("preview.step4.title"),
-            description: t("preview.step4.desc"),
+            title: "Buy Items Directly",
+            description: "Purchase essential first-aid items like bandages, antiseptic, and more instantly.",
             icon: Camera,
-            details: t("preview.step4.details"),
+            details: "No wait, no analysis needed. Quick buy options for instant access to essentials.",
         },
         {
             id: 5,
-            title: t("preview.step5.title"),
-            description: t("preview.step5.desc"),
+            title: "Receipt Generation",
+            description: "Digital receipts are automatically sent to your registered email ID.",
             icon: HeartPulse,
-            details: t("preview.step5.details"),
+            details: "Keep a record of your purchases and care instructions. Download or print anytime.",
         },
     ];
 
@@ -125,13 +125,13 @@ export default function Home() {
                             src="/curegenie-logo.png"
                             width={64}
                             height={64}
-                            alt="CureGenie logo — leaf and stethoscope"
+                            alt="CureGenie logo - leaf and stethoscope"
                             className="h-12 w-12 rounded-full bg-white/5 p-1"
                             priority
                         />
                         <div>
-                            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-300">{t("welcome.header.title")}</p>
-                            <p className="text-xs text-slate-400">{t("welcome.header.subtitle")}</p>
+                            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-300">{"CureGenie"}</p>
+                            <p className="text-xs text-slate-400">{"Smart Health Assistance"}</p>
                         </div>
                     </div>
 
@@ -149,10 +149,10 @@ export default function Home() {
                 <div className={`mt-12 space-y-8 transition-all duration-500 ${isNavigating ? "translate-y-4 opacity-50" : "opacity-100"}`}>
                     <div className="space-y-6 lg:max-w-4xl">
                         <h1 className="text-4xl font-semibold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl">
-                            {t("welcome.main.title")}
+                            {"Welcome to CureGenie - The Smart Health Assistance Vending Machine"}
                         </h1>
                         <h2 className="max-w-2xl text-xl font-light text-slate-200 sm:text-xl">
-                            {t("welcome.main.subtitle")}
+                            CureGenie combines intelligent triage, remote physicians, and ready-to-buy essentials so you can act within seconds.
                         </h2>
                     </div>
 
@@ -166,7 +166,7 @@ export default function Home() {
                                 whileTap={!isNavigating ? { scale: 0.98 } : {}}
                                 aria-label="Get started with CureGenie"
                             >
-                                {t("welcome.btn.getStarted")}
+                                Get Started
                             </motion.button>
                             <motion.button
                                 onClick={() => setShowPreview(true)}
@@ -175,12 +175,12 @@ export default function Home() {
                                 whileTap={{ scale: 0.97 }}
                                 aria-label="Preview the CureGenie flow"
                             >
-                                {t("welcome.btn.preview")}
+                                {"Preview the Flow"}
                             </motion.button>
                         </div>
                     </div>
                     <p className="text-l text-slate-400">
-                        {t("welcome.note")}
+                        Tap &quot;Get Started&quot; to begin. Guidance fee ₹10 for physician-reviewed recommendations.
                     </p>
                 </div>
 
@@ -192,12 +192,12 @@ export default function Home() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-sm uppercase tracking-[0.35em] text-cyan-200">{t("welcome.card.safety.title")}</h2>
+                        <h2 className="text-sm uppercase tracking-[0.35em] text-cyan-200">{"Built for Your Safety"}</h2>
                         <p className="mt-4 text-lg text-slate-100">
-                            {t("welcome.card.safety.desc")}
+                            {"This machine offers basic first aid only. Serious cases are immediately referred to a nearby doctor or hospital."}
                         </p>
                         <p className="mt-3 text-sm text-slate-300">
-                            {t("welcome.card.safety.sub")}
+                            {"Every recommendation is reviewed by remote medical experts. Premium contrast and large tap targets keep the experience accessible."}
                         </p>
                     </motion.div>
 
@@ -208,9 +208,9 @@ export default function Home() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.15 }}
                     >
-                        <h2 className="text-sm uppercase tracking-[0.35em] text-cyan-200">{t("welcome.card.hub.title")}</h2>
+                        <h2 className="text-sm uppercase tracking-[0.35em] text-cyan-200">{"First-Aid Essentials Hub"}</h2>
                         <p className="mt-4 text-lg text-slate-100">
-                            {t("welcome.card.hub.desc")}
+                            {"Purchase individual first-aid items instantly - no prescription, no wait."}
                         </p>
                         <ul className="mt-4 space-y-2 text-slate-200">
                             {essentials.map((item) => (
@@ -228,17 +228,17 @@ export default function Home() {
                 <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-8">
                     <nav className="flex flex-wrap gap-4">
                         <a href="#" className="transition hover:text-white">
-                            {t("welcome.footer.terms")}
+                            {"Terms & Privacy"}
                         </a>
                         <a href="#" className="transition hover:text-white">
-                            {t("welcome.footer.safety")}
+                            {"Safety Info"}
                         </a>
                         <a href="#" className="transition hover:text-white">
-                            {t("welcome.footer.contact")}
+                            {"Contact Support"}
                         </a>
                     </nav>
                     <p className="text-xs text-slate-500">
-                        {t("welcome.footer.disclaimer")}
+                        {"Do not use this machine in place of emergency services. For life-threatening situations, call your local emergency number immediately."}
                     </p>
                 </div>
             </footer>
@@ -265,9 +265,9 @@ export default function Home() {
                             {/* Header */}
                             <div className="mb-6 flex items-center justify-between">
                                 <div>
-                                    <h2 className="text-2xl font-semibold text-white">{t("preview.title")}</h2>
+                                    <h2 className="text-2xl font-semibold text-white">{"Want to see how this machine works?"}</h2>
                                     <p className="mt-1 text-sm text-slate-400">
-                                        {t("preview.subtitle")}
+                                        {"Get a quick preview before you start"}
                                     </p>
                                 </div>
                                 <button
@@ -324,7 +324,7 @@ export default function Home() {
                                         <div className="flex-1">
                                             <div className="mb-2 flex items-center gap-2">
                                                 <span className="rounded-full bg-cyan-400/20 px-3 py-1 text-xs font-semibold text-cyan-300">
-                                                    {t("preview.step")} {previewSteps[currentStep].id}
+                                                    {"Step"} {previewSteps[currentStep].id}
                                                 </span>
                                             </div>
                                             <h3 className="mb-3 text-2xl font-semibold text-white">
@@ -353,7 +353,7 @@ export default function Home() {
                                     whileTap={currentStep > 0 ? { scale: 0.95 } : {}}
                                 >
                                     <ChevronLeft className="h-4 w-4" />
-                                    {t("preview.btn.prev")}
+                                    {"Previous"}
                                 </motion.button>
                                 <div className="flex gap-2">
                                     {previewSteps.map((_, index) => (
@@ -374,7 +374,7 @@ export default function Home() {
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                     >
-                                        {t("preview.btn.next")}
+                                        {"Next"}
                                         <ChevronRight className="h-4 w-4" />
                                     </motion.button>
                                 ) : (
@@ -385,7 +385,7 @@ export default function Home() {
                                         whileTap={{ scale: 0.95 }}
                                     >
                                         <CheckCircle2 className="h-4 w-4" />
-                                        {t("preview.btn.gotIt")}
+                                        {"Got it!"}
                                     </motion.button>
                                 )}
                             </div>
@@ -394,7 +394,7 @@ export default function Home() {
                             <div className="mt-6 border-t border-white/10 pt-4">
                                 <p className="text-center text-xs text-slate-400">
                                     <ShieldCheck className="mr-1 inline h-3 w-3" />
-                                    {t("preview.footer")}
+                                    {"Your data is never shared during preview. This is just a demonstration."}
                                 </p>
                             </div>
                         </motion.div>

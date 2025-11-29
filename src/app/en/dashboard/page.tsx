@@ -23,49 +23,46 @@ const quickBuyItems = [
   { name: "Pain Relief Tablet", icon: Pill },
 ];
 
-import { useLanguage } from "@/context/LanguageContext";
-
 // ... imports ...
 
 export default function DashboardPage() {
-  const { t } = useLanguage();
-  const [studentName, setStudentName] = useState(t("dashboard.student"));
+  const [studentName, setStudentName] = useState("Student");
   const [isLoadingName, setIsLoadingName] = useState(true);
   const [nameError, setNameError] = useState("");
 
   const dashboardSections = [
     {
-      title: t("dashboard.healthAnalysis.title"),
-      description: t("dashboard.healthAnalysis.desc"),
+      title: "Get AI Health Assistance",
+      description: "Scan a symptom or wound and describe how you're feeling. Our AI will guide you with safe first-aid steps and suggested items.",
       icon: Stethoscope,
-      buttonText: t("dashboard.healthAnalysis.btn"),
+      buttonText: "Start Health Analysis",
       href: "/en/health-analysis",
       accent: "from-cyan-400/80 to-blue-500/60",
       gradient: "from-cyan-500/20 to-blue-500/20",
     },
     {
-      title: t("dashboard.quickBuy.title"),
-      description: t("dashboard.quickBuy.desc"),
+      title: "Quick Buy",
+      description: "Need something simple and fast? Bandages, cotton, antiseptic, pain relief tablet, or any available first-aid item.",
       icon: ShoppingCart,
-      buttonText: t("dashboard.quickBuy.btn"),
+      buttonText: "Buy Directly",
       href: "/en/quick-buy",
       accent: "from-emerald-400/80 to-teal-500/60",
       gradient: "from-emerald-500/20 to-teal-500/20",
     },
     {
-      title: t("dashboard.history.title"),
-      description: t("dashboard.history.desc"),
+      title: "Receipts & History",
+      description: "View your past visits, receipts, and items you purchased. (Only minimal masked data is stored.)",
       icon: Receipt,
-      buttonText: t("dashboard.history.btn"),
+      buttonText: "View My Records",
       href: "/en/history",
       accent: "from-amber-400/80 to-orange-500/60",
       gradient: "from-amber-500/20 to-orange-500/20",
     },
     {
-      title: t("dashboard.settings.title"),
-      description: t("dashboard.settings.desc"),
+      title: "Account & Settings",
+      description: "Update your contact number, preferred language, and notifications. Also view privacy policy and usage limits.",
       icon: Settings,
-      buttonText: t("dashboard.settings.btn"),
+      buttonText: "Settings",
       href: "/en/settings",
       accent: "from-purple-400/80 to-indigo-500/60",
       gradient: "from-purple-500/20 to-indigo-500/20",
@@ -96,13 +93,13 @@ export default function DashboardPage() {
         setNameError("");
 
         const response = await fetch(
-          `/api/student-profile/${encodeURIComponent(storedId)}`,
+          `/api/student-profile?uid=${encodeURIComponent(storedId)}`,
           { signal: controller.signal }
         );
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.message || t("error.fetchFailed"));
+          throw new Error(errorData.message || "Unable to fetch student name");
         }
 
         const data = await response.json();
@@ -110,16 +107,15 @@ export default function DashboardPage() {
           setStudentName(data.firstName);
           sessionStorage.setItem("studentFirstName", data.firstName);
         } else if (data.success === false) {
-          setNameError(t("error.studentNotFound"));
+          setNameError("Student not found");
         }
       } catch (error) {
         if (error instanceof Error && error.name === "AbortError") return;
         console.error("Failed to fetch student name:", error);
         if (error instanceof Error) {
-          // If the error message matches a key, it will be translated, otherwise show generic
-          setNameError(t("error.fetchFailed"));
+          setNameError("Unable to fetch student name");
         } else {
-          setNameError(t("error.fetchFailed"));
+          setNameError("Unable to fetch student name");
         }
       } finally {
         setIsLoadingName(false);
@@ -129,7 +125,7 @@ export default function DashboardPage() {
     fetchStudentName();
 
     return () => controller.abort();
-  }, [t]);
+  }, []);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
@@ -155,9 +151,9 @@ export default function DashboardPage() {
             </div>
             <div>
               <h1 className="text-2xl font-semibold text-white">
-                {t("dashboard.welcome")}, {isLoadingName ? "..." : studentName || t("dashboard.student")}!
+                Welcome, {isLoadingName ? "..." : studentName || "Student"}!
               </h1>
-              <p className="text-sm text-slate-400">{t("dashboard.signedIn")}</p>
+              <p className="text-sm text-slate-400">You're signed in</p>
               {nameError && (
                 <p className="text-xs text-amber-400">{nameError}</p>
               )}
@@ -171,10 +167,10 @@ export default function DashboardPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <p className="text-lg text-slate-100">
-              {t("dashboard.ready")}
+              You're now signed in and ready to use the Smart Health Assistance Machine.
             </p>
             <p className="mt-2 text-sm text-slate-300">
-              {t("dashboard.choose")}
+              Choose what you want to do:
             </p>
           </motion.div>
         </motion.header>
@@ -206,7 +202,7 @@ export default function DashboardPage() {
                   <p className="text-slate-300">{section.description}</p>
 
                   {/* Quick Buy Items List */}
-                  {section.title === t("dashboard.quickBuy.title") && (
+                  {section.title === "Quick Buy" && (
                     <div className="mt-4 flex flex-wrap gap-3">
                       {quickBuyItems.map((item) => {
                         const Icon = item.icon;
@@ -258,12 +254,12 @@ export default function DashboardPage() {
             <AlertCircle className="h-5 w-5 shrink-0 text-amber-400" />
             <div className="space-y-2">
               <p>
-                {t("dashboard.footer.note")}
+                This machine offers basic first aid only. For serious cases, you'll be directed to the nearest medical center.
               </p>
               <div className="flex items-center gap-2">
                 <Shield className="h-4 w-4 text-cyan-400" />
                 <p>
-                  {t("dashboard.footer.privacy")}
+                  Your identity is protected — we only store a secure student token.
                 </p>
               </div>
             </div>

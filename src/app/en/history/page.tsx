@@ -19,7 +19,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
+
 
 interface Activity {
   id: string;
@@ -124,7 +124,7 @@ const insights = [
 ];
 
 export default function HistoryPage() {
-  const { t } = useLanguage();
+
   const [expandedReceipt, setExpandedReceipt] = useState<string | null>(null);
   const [showMoreInsights, setShowMoreInsights] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -135,7 +135,7 @@ export default function HistoryPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   function handleDownloadReceipt(receiptId: string) {
-    alert(t("history.alerts.downloadReceipt", { receiptId }));
+    alert(`Downloading receipt: ${receiptId}`);
   }
 
   function handlePrintReceipt() {
@@ -143,7 +143,7 @@ export default function HistoryPage() {
   }
 
   function handleDownloadHistory() {
-    alert(t("history.alerts.downloadHistory"));
+    alert("Downloading your complete history...");
   }
 
   const filteredReceipts = receipts.filter((receipt) => {
@@ -151,7 +151,7 @@ export default function HistoryPage() {
       const matchesSearch =
         receipt.receiptId.toLowerCase().includes(searchQuery.toLowerCase()) ||
         receipt.items.some((item) =>
-          t(item.name).toLowerCase().includes(searchQuery.toLowerCase())
+          item.name.toLowerCase().includes(searchQuery.toLowerCase())
         ) ||
         receipt.date.toLowerCase().includes(searchQuery.toLowerCase());
       if (!matchesSearch) return false;
@@ -167,21 +167,21 @@ export default function HistoryPage() {
 
   const getDateFilterLabel = (filter: string) => {
     switch (filter) {
-      case "All": return t("history.filter.all");
-      case "Today": return t("history.filter.today");
-      case "Week": return t("history.filter.week");
-      case "Month": return t("history.filter.month");
+      case "All": return "All";
+      case "Today": return "Today";
+      case "Week": return "Week";
+      case "Month": return "Month";
       default: return filter;
     }
   };
 
   const getCategoryFilterLabel = (filter: string) => {
     switch (filter) {
-      case "All": return t("history.filter.all");
-      case "Medicine": return t("history.filter.medicine");
-      case "First-Aid": return t("history.filter.firstAid");
-      case "Hygiene": return t("history.filter.hygiene");
-      case "AI-Advice": return t("history.filter.aiAdvice");
+      case "All": return "All";
+      case "Medicine": return "Medicine";
+      case "First-Aid": return "First Aid";
+      case "Hygiene": return "Hygiene";
+      case "AI-Advice": return "AI-Advice";
       default: return filter;
     }
   };
@@ -204,15 +204,15 @@ export default function HistoryPage() {
             className="mb-4 inline-flex items-center gap-2 text-slate-300 transition hover:text-cyan-300"
           >
             <ArrowLeft className="h-5 w-5" />
-            <span>{t("history.back")}</span>
+            <span>{"Back to Dashboard"}</span>
           </Link>
 
           <div className="space-y-2">
             <h1 className="text-3xl font-semibold text-white sm:text-4xl">
-              {t("history.title")}
+              {"Your Usage History"}
             </h1>
             <p className="text-lg text-slate-300">
-              {t("history.subtitle")}
+              {"View your recent visits, receipts, and items you purchased from this Health Assistance Machine."}
             </p>
           </div>
         </motion.header>
@@ -230,7 +230,7 @@ export default function HistoryPage() {
                 <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
-                  placeholder={t("history.search.placeholder")}
+                  placeholder={"Search: item name, month, or receipt ID"}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full rounded-xl border border-white/20 bg-white/5 px-10 py-3 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20"
@@ -243,7 +243,7 @@ export default function HistoryPage() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Filter className="h-5 w-5" />
-                <span>{t("history.filter.btn")}</span>
+                <span>{"Filter"}</span>
                 {showFilters ? (
                   <ChevronUp className="h-4 w-4" />
                 ) : (
@@ -262,7 +262,7 @@ export default function HistoryPage() {
                 >
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-300">
-                      {t("history.filter.date")}
+                      {"Filter by Date"}
                     </label>
                     <div className="flex flex-wrap gap-2">
                       {(["All", "Today", "Week", "Month"] as const).map((filter) => (
@@ -284,7 +284,7 @@ export default function HistoryPage() {
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-300">
-                      {t("history.filter.category")}
+                      {"Filter by Category"}
                     </label>
                     <div className="flex flex-wrap gap-2">
                       {(["All", "Medicine", "First-Aid", "Hygiene", "AI-Advice"] as const).map(
@@ -324,8 +324,8 @@ export default function HistoryPage() {
                 <Clock className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-white">🔄 {t("history.recent.title")}</h2>
-                <p className="text-sm text-slate-400">{t("history.recent.subtitle")}</p>
+                <h2 className="text-xl font-semibold text-white">🔄 {"Recent Activity"}</h2>
+                <p className="text-sm text-slate-400">{"Auto-updates every time you use the machine"}</p>
               </div>
             </div>
 
@@ -350,7 +350,7 @@ export default function HistoryPage() {
                       <span className="font-medium">{activity.date}</span>
                       {activity.time && <span>• {activity.time}</span>}
                     </div>
-                    <p className="mt-1 font-medium text-white">{t(activity.description)}</p>
+                    <p className="mt-1 font-medium text-white">{activity.description}</p>
                     {activity.amount && (
                       <p className="mt-1 text-sm text-cyan-400">₹{activity.amount}</p>
                     )}
@@ -361,7 +361,7 @@ export default function HistoryPage() {
                             key={item}
                             className="rounded-full bg-purple-400/20 px-3 py-1 text-xs text-purple-300"
                           >
-                            {t(item)}
+                            {item}
                           </span>
                         ))}
                       </div>
@@ -376,7 +376,7 @@ export default function HistoryPage() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              {t("history.recent.viewAll")}
+              {"View Full Timeline"}
             </motion.button>
           </div>
         </motion.section>
@@ -394,9 +394,9 @@ export default function HistoryPage() {
                 <Receipt className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-white">🧾 {t("history.receipts.title")}</h2>
+                <h2 className="text-xl font-semibold text-white">🧾 {"Your Digital Receipts"}</h2>
                 <p className="text-sm text-slate-400">
-                  {t("history.receipts.subtitle")}
+                  {"Auto-generated and securely stored (masked identity)"}
                 </p>
               </div>
             </div>
@@ -419,7 +419,7 @@ export default function HistoryPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3">
-                          <h3 className="font-semibold text-white">{t("history.receipts.receipt")} {receipt.receiptId}</h3>
+                          <h3 className="font-semibold text-white">{"Receipt"} {receipt.receiptId}</h3>
                           <span
                             className={`rounded-full px-3 py-1 text-xs font-medium ${receipt.status === "Completed"
                               ? "bg-green-500/20 text-green-400"
@@ -432,7 +432,7 @@ export default function HistoryPage() {
                           </span>
                         </div>
                         <p className="mt-1 text-sm text-slate-400">{receipt.date}</p>
-                        <p className="mt-1 text-sm text-cyan-400">{t("history.receipts.total")}: ₹{receipt.total}</p>
+                        <p className="mt-1 text-sm text-cyan-400">{"Total"}: ₹{receipt.total}</p>
                       </div>
                       {expandedReceipt === receipt.id ? (
                         <ChevronUp className="h-5 w-5 text-slate-400" />
@@ -452,7 +452,7 @@ export default function HistoryPage() {
                       >
                         <div className="space-y-4">
                           <div>
-                            <h4 className="mb-2 text-sm font-medium text-slate-300">{t("history.receipts.items")}</h4>
+                            <h4 className="mb-2 text-sm font-medium text-slate-300">{"Items:"}</h4>
                             <div className="space-y-2">
                               {receipt.items.map((item, idx) => (
                                 <div
@@ -460,7 +460,7 @@ export default function HistoryPage() {
                                   className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2"
                                 >
                                   <span className="text-sm text-white">
-                                    {item.quantity}× {t(item.name)}
+                                    {item.quantity}× {item.name}
                                   </span>
                                   <span className="text-sm font-semibold text-cyan-400">
                                     ₹{item.price}
@@ -472,11 +472,11 @@ export default function HistoryPage() {
 
                           <div className="grid grid-cols-2 gap-4 text-sm">
                             <div>
-                              <span className="text-slate-400">{t("history.receipts.payment")}</span>
+                              <span className="text-slate-400">{"Payment:"}</span>
                               <p className="font-medium text-white">{receipt.paymentMethod}</p>
                             </div>
                             <div>
-                              <span className="text-slate-400">{t("history.receipts.sentTo")}</span>
+                              <span className="text-slate-400">{"Sent to:"}</span>
                               <p className="font-medium text-white">{receipt.sentTo}</p>
                             </div>
                           </div>
@@ -492,7 +492,7 @@ export default function HistoryPage() {
                               whileTap={{ scale: 0.95 }}
                             >
                               <Download className="h-4 w-4" />
-                              {t("history.receipts.download")}
+                              {"Download"}
                             </motion.button>
                             <motion.button
                               onClick={(e) => {
@@ -504,7 +504,7 @@ export default function HistoryPage() {
                               whileTap={{ scale: 0.95 }}
                             >
                               <Printer className="h-4 w-4" />
-                              {t("history.receipts.print")}
+                              {"Print Copy"}
                             </motion.button>
                           </div>
                         </div>
@@ -530,9 +530,9 @@ export default function HistoryPage() {
                 <TrendingUp className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-white">📌 {t("history.insights.title")}</h2>
+                <h2 className="text-xl font-semibold text-white">📌 {"Smart Insights"}</h2>
                 <p className="text-sm text-slate-400">
-                  {t("history.insights.subtitle")}
+                  {"AI-generated, personalized based on your usage"}
                 </p>
               </div>
             </div>
@@ -546,7 +546,7 @@ export default function HistoryPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                 >
-                  <p className="text-slate-200">{t(insight)}</p>
+                  <p className="text-slate-200">{insight}</p>
                 </motion.div>
               ))}
             </div>
@@ -557,7 +557,7 @@ export default function HistoryPage() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              {showMoreInsights ? t("history.insights.showLess") : t("history.insights.showMore")}
+              {showMoreInsights ? "Show Less Insights" : "Show More Insights"}
             </motion.button>
           </div>
         </motion.section>
@@ -575,9 +575,9 @@ export default function HistoryPage() {
                 <FileText className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-white">🗂 {t("history.download.title")}</h2>
+                <h2 className="text-xl font-semibold text-white">🗂 {"Download Your Full Log"}</h2>
                 <p className="text-sm text-slate-400">
-                  {t("history.download.subtitle")}
+                  {"Export your entire usage history for records or documentation"}
                 </p>
               </div>
             </div>
@@ -590,11 +590,11 @@ export default function HistoryPage() {
             >
               <div className="flex items-center justify-center gap-2">
                 <Download className="h-5 w-5" />
-                {t("history.download.btn")}
+                {"Download My History (PDF)"}
               </div>
             </motion.button>
             <p className="mt-2 text-center text-xs text-slate-400">
-              {t("history.download.note")}
+              {"Generated using your masked student token"}
             </p>
           </div>
         </motion.section>
@@ -609,10 +609,10 @@ export default function HistoryPage() {
           <div className="flex items-start gap-3">
             <Shield className="h-5 w-5 shrink-0 text-cyan-400" />
             <div className="space-y-2">
-              <p className="font-medium text-slate-300">🛡 {t("history.privacy.title")}</p>
-              <p>• {t("history.privacy.1")}</p>
-              <p>• {t("history.privacy.2")}</p>
-              <p>• {t("history.privacy.3")}</p>
+              <p className="font-medium text-slate-300">🛡 {"Privacy Notes"}</p>
+              <p>• {"Only masked Student-ID tokens are stored."}</p>
+              <p>• {"No personal medical data is kept - only item purchases and timestamps."}</p>
+              <p>• {"You can request deletion of your stored logs anytime."}</p>
             </div>
           </div>
         </motion.footer>

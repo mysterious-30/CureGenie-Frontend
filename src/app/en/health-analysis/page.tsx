@@ -14,7 +14,7 @@ import {
   Stethoscope,
 } from "lucide-react";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
+
 
 type SeverityLevel = "Low" | "Moderate" | "High";
 type Category = "Cut" | "Rash" | "Burn" | "Swelling" | "Skin Irritation" | "Fever" | "Sprain" | "Other";
@@ -35,7 +35,7 @@ const exampleDescriptions = [
 ];
 
 export default function HealthAnalysisPage() {
-  const { t } = useLanguage();
+
   const [image, setImage] = useState<string | null>(null);
   const [description, setDescription] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -195,7 +195,7 @@ export default function HealthAnalysisPage() {
   }
 
   function insertExample(exampleKey: string) {
-    setDescription(t(exampleKey));
+    setDescription(exampleKey);
   }
 
   return (
@@ -232,12 +232,12 @@ export default function HealthAnalysisPage() {
                   <AlertTriangle className="h-8 w-8 text-amber-400" />
                 </motion.div>
                 <h3 className="text-2xl font-bold text-white">
-                  {t("analysis.modal.title")}
+                  {"Almost There!"}
                 </h3>
                 <p className="mt-2 text-sm text-slate-400">
                   {validationError.needsImage && validationError.needsDescription
-                    ? t("analysis.modal.sub.both")
-                    : t("analysis.modal.sub.one")}
+                    ? "Please complete the following to analyze your symptoms"
+                    : "Please complete this requirement to analyze your symptoms"}
                 </p>
               </div>
 
@@ -249,9 +249,9 @@ export default function HealthAnalysisPage() {
                       <Camera className="h-4 w-4 text-amber-400" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-semibold text-white">{t("analysis.modal.img.title")}</div>
+                      <div className="font-semibold text-white">{"Upload an Image"}</div>
                       <div className="mt-1 text-sm text-slate-300">
-                        {t("analysis.modal.img.desc")}
+                        {"Take or upload a clear photo of the affected area"}
                       </div>
                     </div>
                   </div>
@@ -263,9 +263,9 @@ export default function HealthAnalysisPage() {
                       <Stethoscope className="h-4 w-4 text-amber-400" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-semibold text-white">{t("analysis.modal.desc.title")}</div>
+                      <div className="font-semibold text-white">{"Describe Your Symptoms"}</div>
                       <div className="mt-1 text-sm text-slate-300">
-                        {t("analysis.modal.desc.desc")}
+                        {"Tell us how you're feeling (at least 10 characters)"}
                       </div>
                     </div>
                   </div>
@@ -280,15 +280,15 @@ export default function HealthAnalysisPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  {t("analysis.modal.btn")}
+                  {"Got it"}
                 </motion.button>
               </div>
 
               {/* Helper Text */}
               <p className="mt-4 text-center text-xs text-slate-500">
                 {validationError.needsImage && validationError.needsDescription
-                  ? t("analysis.modal.note.both")
-                  : t("analysis.modal.note.one")}
+                  ? "Both items are required for accurate AI analysis"
+                  : "This item is required for accurate AI analysis"}
               </p>
             </motion.div>
           </motion.div>
@@ -308,18 +308,18 @@ export default function HealthAnalysisPage() {
             className="mb-4 inline-flex items-center gap-2 text-slate-300 transition hover:text-cyan-300"
           >
             <ArrowLeft className="h-5 w-5" />
-            <span>{t("analysis.back")}</span>
+            <span>{"Back to Dashboard"}</span>
           </Link>
 
           <div className="space-y-2">
             <h1 className="text-3xl font-semibold text-white sm:text-4xl">
-              {t("analysis.title")}
+              {"Get AI Health Assistance"}
             </h1>
             <p className="text-lg text-slate-300">
-              {t("analysis.subtitle")}
+              {"Tell us what's bothering you, we'll guide you safely."}
             </p>
             <p className="text-sm text-slate-400">
-              {t("analysis.desc")}
+              {"Our AI will analyze your symptoms and recommend safe first-aid steps."}
             </p>
           </div>
         </motion.header>
@@ -337,10 +337,10 @@ export default function HealthAnalysisPage() {
                 <AlertTriangle className="h-8 w-8 shrink-0 text-red-400" />
                 <div className="flex-1">
                   <h3 className="mb-2 text-xl font-semibold text-red-300">
-                    {t("analysis.urgent.title")}
+                    {"Urgent attention recommended"}
                   </h3>
                   <p className="mb-4 text-slate-200">
-                    {t("analysis.urgent.desc")}
+                    {"Please seek medical help nearby. This appears to be a serious condition that requires professional medical attention."}
                   </p>
                   <div className="flex gap-3">
                     <motion.button
@@ -348,14 +348,14 @@ export default function HealthAnalysisPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      {t("analysis.urgent.btn.doctor")}
+                      {"Call Nearby Doctor"}
                     </motion.button>
                     <motion.button
                       className="rounded-full border border-red-500/50 bg-red-500/20 px-6 py-2 font-semibold text-red-300"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      {t("analysis.urgent.btn.hospital")}
+                      {"Show Hospital List"}
                     </motion.button>
                   </div>
                 </div>
@@ -378,10 +378,10 @@ export default function HealthAnalysisPage() {
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-white">
-                  {t("analysis.upload.title")}
+                  {"Upload or Capture the Affected Area"}
                 </h2>
                 <p className="text-sm text-slate-400">
-                  {t("analysis.upload.subtitle")}
+                  {"Take a clear photo using the machine camera or upload from your phone"}
                 </p>
               </div>
             </div>
@@ -411,8 +411,8 @@ export default function HealthAnalysisPage() {
                 >
                   <Camera className="h-8 w-8 text-cyan-400" />
                   <div className="text-left">
-                    <div className="font-semibold text-white">{t("analysis.upload.btn.capture")}</div>
-                    <div className="text-sm text-slate-400">{t("analysis.upload.btn.capture.sub")}</div>
+                    <div className="font-semibold text-white">{"Capture Image"}</div>
+                    <div className="text-sm text-slate-400">{"Use machine camera"}</div>
                   </div>
                 </motion.button>
 
@@ -424,8 +424,8 @@ export default function HealthAnalysisPage() {
                 >
                   <Upload className="h-8 w-8 text-purple-400" />
                   <div className="text-left">
-                    <div className="font-semibold text-white">{t("analysis.upload.btn.upload")}</div>
-                    <div className="text-sm text-slate-400">{t("analysis.upload.btn.upload.sub")}</div>
+                    <div className="font-semibold text-white">{"Upload Image"}</div>
+                    <div className="text-sm text-slate-400">{"From your device"}</div>
                   </div>
                 </motion.button>
               </div>
@@ -440,7 +440,7 @@ export default function HealthAnalysisPage() {
             />
 
             <p className="mt-4 text-sm text-slate-400">
-              <span className="font-medium text-cyan-300">{t("analysis.upload.tip")}</span> {t("analysis.upload.tip.text")}
+              <span className="font-medium text-cyan-300">{"Tip:"}</span> {"If it's a cut, rash, burn, swelling, or skin irritation - this helps the AI understand it better."}
             </p>
           </div>
         </motion.section>
@@ -459,10 +459,10 @@ export default function HealthAnalysisPage() {
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-white">
-                  {t("analysis.desc.title")}
+                  {"Add a Description"}
                 </h2>
                 <p className="text-sm text-slate-400">
-                  {t("analysis.desc.subtitle")}
+                  {"Describe your issue in your own words."}
                 </p>
               </div>
             </div>
@@ -470,13 +470,13 @@ export default function HealthAnalysisPage() {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder={t("analysis.desc.placeholder")}
+              placeholder={"Describe your symptoms... (Optional)"}
               className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20"
               rows={4}
             />
 
             <div className="mt-4">
-              <p className="mb-2 text-sm font-medium text-slate-300">{t("analysis.desc.examples")}</p>
+              <p className="mb-2 text-sm font-medium text-slate-300">{"Examples you can use:"}</p>
               <div className="flex flex-wrap gap-2">
                 {exampleDescriptions.map((exampleKey) => (
                   <motion.button
@@ -486,7 +486,7 @@ export default function HealthAnalysisPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {t(exampleKey)}
+                    {exampleKey}
                   </motion.button>
                 ))}
               </div>
@@ -515,11 +515,11 @@ export default function HealthAnalysisPage() {
                 {isAnalyzing ? (
                   <>
                     <Loader2 className="h-5 w-5 animate-spin" />
-                    {t("analysis.btn.analyzing")}
+                    {"Analyzing..."}
                   </>
                 ) : (
                   <>
-                    {t("analysis.btn.analyze")}
+                    {"Analyze My Issue"}
                     <Sparkles className="h-5 w-5" />
                   </>
                 )}
@@ -527,7 +527,7 @@ export default function HealthAnalysisPage() {
               <span className="absolute inset-0 bg-white/20 opacity-0 transition group-hover:opacity-100" />
             </motion.button>
             <p className="mt-2 text-center text-sm text-slate-400">
-              {t("analysis.btn.note")}
+              {"Takes ~3 seconds. Your data stays private."}
             </p>
           </motion.div>
         )}
@@ -542,9 +542,9 @@ export default function HealthAnalysisPage() {
           <div className="flex items-start gap-3">
             <Shield className="h-5 w-5 shrink-0 text-cyan-400" />
             <div>
-              <p className="font-medium text-slate-300">{t("analysis.privacy.title")}</p>
+              <p className="font-medium text-slate-300">{"Privacy Note"}</p>
               <p className="mt-1">
-                {t("analysis.privacy.text")}
+                {"We don't store your photo. It's analyzed once and deleted immediately. Only a brief summary is kept for your receipt."}
               </p>
             </div>
           </div>
@@ -569,7 +569,7 @@ export default function HealthAnalysisPage() {
               exit={{ opacity: 0, scale: 0.9, y: -20 }}
             >
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-xl font-semibold text-white">{t("analysis.camera.title")}</h3>
+                <h3 className="text-xl font-semibold text-white">{"Capture Photo"}</h3>
                 <button
                   onClick={closeCamera}
                   className="text-slate-400 transition hover:text-white"
@@ -593,7 +593,7 @@ export default function HealthAnalysisPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  {t("analysis.camera.cancel")}
+                  {"Cancel"}
                 </motion.button>
                 <motion.button
                   onClick={capturePhoto}
@@ -601,7 +601,7 @@ export default function HealthAnalysisPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  {t("analysis.camera.capture")}
+                  {"Capture"}
                 </motion.button>
               </div>
             </motion.div>

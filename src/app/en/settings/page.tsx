@@ -27,7 +27,7 @@ import Link from "next/link";
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const [profile, setProfile] = useState<{ fullName: string; uid: string; number: string; age: number | null; allergy: string | null } | null>(null);
 
   const [smsAlerts, setSmsAlerts] = useState(true);
@@ -82,15 +82,15 @@ export default function SettingsPage() {
             className="mb-4 inline-flex items-center gap-2 text-slate-300 transition hover:text-cyan-300"
           >
             <ArrowLeft className="h-5 w-5" />
-            <span>{t("dashboard.back")}</span>
+            <span>Back to Dashboard</span>
           </Link>
 
           <div className="space-y-2">
             <h1 className="text-3xl font-semibold text-white sm:text-4xl">
-              {t("settings.title")}
+              {"Manage Your Profile & Preferences"}
             </h1>
             <p className="text-lg text-slate-300">
-              {t("settings.subtitle")}
+              {"Customize your experience, update your information, and control how the Health Assistance Machine interacts with you."}
             </p>
           </div>
         </motion.header>
@@ -107,37 +107,39 @@ export default function SettingsPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500">
                 <User className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-xl font-semibold text-white"> {t("settings.profile")}</h2>
+              <h2 className="text-xl font-semibold text-white"> {"Your Profile"}</h2>
             </div>
 
             <div className="space-y-4">
               <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-                <div className="mb-2 text-sm text-slate-400">{t("Name")}</div>
+                <div className="mb-2 text-sm text-slate-400">{"Name"}</div>
                 <div className="text-lg font-semibold text-white">{profile?.fullName || "Loading..."}</div>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-                <div className="mb-2 text-sm text-slate-400">{t("Student ID")}</div>
+                <div className="mb-2 text-sm text-slate-400">{"Student ID"}</div>
                 <div className="text-lg font-semibold text-white">{profile?.uid || "Loading..."}</div>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-                <div className="mb-2 text-sm text-slate-400">{t("settings.registeredNumber")}</div>
-                <div className="text-lg font-semibold text-white">{profile?.number || " "}</div>
+                <div className="mb-2 text-sm text-slate-400">{"Registered Number"}</div>
+                <div className="text-lg font-semibold text-white">
+                  {profile?.number ? profile.number : profile ? "Not Registered" : "Loading..."}
+                </div>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-                <div className="mb-2 text-sm text-slate-400">{t("Age")}</div>
+                <div className="mb-2 text-sm text-slate-400">{"Age"}</div>
                 <div className="text-lg font-semibold text-white">{profile?.age || "Loading..."}</div>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-                <div className="mb-2 text-sm text-slate-400">{t("Allergy")}</div>
+                <div className="mb-2 text-sm text-slate-400">{"Allergy"}</div>
                 <div className="text-lg font-semibold text-white">{profile?.allergy || "None"}</div>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-                <div className="mb-2 text-sm text-slate-400">{t("settings.verifiedOn")}</div>
+                <div className="mb-2 text-sm text-slate-400">{"Verified On"}</div>
                 <div className="text-lg font-semibold text-white">22 Nov 2025, 3:42 PM</div>
               </div>
 
@@ -148,7 +150,7 @@ export default function SettingsPage() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <Phone className="h-4 w-4" />
-                  {t("settings.btn.updatePhone")}
+                  {"Update Phone Number"}
                 </motion.button>
                 <motion.button
                   className="flex flex-1 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-3 font-medium text-slate-300 transition hover:border-cyan-400 hover:bg-cyan-400/10 hover:text-cyan-300"
@@ -156,7 +158,7 @@ export default function SettingsPage() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <RefreshCw className="h-4 w-4" />
-                  {t("settings.btn.refreshInfo")}
+                  {"Refresh Student Info"}
                 </motion.button>
               </div>
             </div>
@@ -175,16 +177,16 @@ export default function SettingsPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500">
                 <Globe className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-xl font-semibold text-white">🌐 {t("settings.language")}</h2>
+              <h2 className="text-xl font-semibold text-white">🌐 {"Language & Accessibility"}</h2>
             </div>
 
             <div className="space-y-6">
               <div>
                 <label className="mb-2 block text-sm font-medium text-slate-300">
-                  {t("settings.preferredLanguage")}
+                  {"Preferred Language"}
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {(["English", "Hindi", "Regional"] as const).map((lang) => (
+                  {(["English", "Hindi"] as const).map((lang) => (
                     <motion.button
                       key={lang}
                       onClick={() => {
@@ -222,19 +224,19 @@ export default function SettingsPage() {
                 <Bell className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-white">🔔 {t("settings.notifications")}</h2>
+                <h2 className="text-xl font-semibold text-white">🔔 {"Notifications & Alerts"}</h2>
                 <p className="text-sm text-slate-400">
-                  {t("settings.notif.desc")}
+                  {"Based on your previous usage, we can notify you about:"}
                 </p>
               </div>
             </div>
 
             <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
               <ul className="space-y-1 text-sm text-amber-200">
-                <li>• {t("settings.notif.list.1")}</li>
-                <li>• {t("settings.notif.list.2")}</li>
-                <li>• {t("settings.notif.list.3")}</li>
-                <li>• {t("settings.notif.list.4")}</li>
+                <li>• {"Receipt deliveries"}</li>
+                <li>• {"Low-stock alerts for frequently purchased items"}</li>
+                <li>• {"Health tips based on seasonal changes"}</li>
+                <li>• {"High-fever or severe-symptom safety warnings"}</li>
               </ul>
             </div>
 
@@ -242,7 +244,7 @@ export default function SettingsPage() {
               <label className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <MessageSquare className="h-4 w-4 text-slate-400" />
-                  <span className="text-sm font-medium text-slate-300">{t("settings.toggle.sms")}</span>
+                  <span className="text-sm font-medium text-slate-300">{"SMS Alerts"}</span>
                 </div>
                 <button
                   onClick={() => setSmsAlerts(!smsAlerts)}
@@ -259,7 +261,7 @@ export default function SettingsPage() {
               <label className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-slate-400" />
-                  <span className="text-sm font-medium text-slate-300">{t("settings.toggle.email")}</span>
+                  <span className="text-sm font-medium text-slate-300">{"Email Receipts"}</span>
                 </div>
                 <button
                   onClick={() => setEmailReceipts(!emailReceipts)}
@@ -276,7 +278,7 @@ export default function SettingsPage() {
               <label className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileText className="h-4 w-4 text-slate-400" />
-                  <span className="text-sm font-medium text-slate-300">{t("settings.toggle.monthly")}</span>
+                  <span className="text-sm font-medium text-slate-300">{"Monthly Usage Summary"}</span>
                 </div>
                 <button
                   onClick={() => setMonthlySummary(!monthlySummary)}
@@ -293,7 +295,7 @@ export default function SettingsPage() {
               <label className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <AlertTriangle className="h-4 w-4 text-slate-400" />
-                  <span className="text-sm font-medium text-slate-300">{t("settings.toggle.emergency")}</span>
+                  <span className="text-sm font-medium text-slate-300">{"Emergency Alerts"}</span>
                 </div>
                 <button
                   onClick={() => setEmergencyAlerts(!emergencyAlerts)}
@@ -322,14 +324,14 @@ export default function SettingsPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-red-400 to-rose-500">
                 <Shield className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-xl font-semibold text-white">🔐 {t("settings.privacy")}</h2>
+              <h2 className="text-xl font-semibold text-white">🔐 {"Privacy & Security"}</h2>
             </div>
 
             <div className="mb-4 space-y-2 text-sm text-slate-300">
-              <p>• {t("settings.privacy.list.1")}</p>
-              <p>• {t("settings.privacy.list.2")}</p>
-              <p>• {t("settings.privacy.list.3")}</p>
-              <p>• {t("settings.privacy.list.4")}</p>
+              <p>• {"We protect your identity using secure student tokens."}</p>
+              <p>• {"No personal medical records are stored"}</p>
+              <p>• {"Only masked identity logs are kept for audit safety"}</p>
+              <p>• {"You can delete your usage logs anytime"}</p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
@@ -339,7 +341,7 @@ export default function SettingsPage() {
                 whileTap={{ scale: 0.98 }}
               >
                 <Eye className="h-4 w-4" />
-                {t("settings.btn.viewData")}
+                {"View My Data"}
               </motion.button>
               <motion.button
                 className="flex flex-1 items-center justify-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-4 py-3 font-medium text-red-300 transition hover:border-red-500 hover:bg-red-500/20"
@@ -347,7 +349,7 @@ export default function SettingsPage() {
                 whileTap={{ scale: 0.98 }}
               >
                 <Trash2 className="h-4 w-4" />
-                {t("settings.btn.deleteLogs")}
+                {"Delete My Logs"}
               </motion.button>
               <motion.button
                 className="flex flex-1 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-3 font-medium text-slate-300 transition hover:border-cyan-400 hover:bg-cyan-400/10 hover:text-cyan-300"
@@ -355,7 +357,7 @@ export default function SettingsPage() {
                 whileTap={{ scale: 0.98 }}
               >
                 <FileText className="h-4 w-4" />
-                {t("settings.btn.privacyPolicy")}
+                {"Privacy Policy"}
               </motion.button>
             </div>
           </div>
@@ -373,7 +375,7 @@ export default function SettingsPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500">
                 <CreditCard className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-xl font-semibold text-white">🧾 {t("settings.billing")}</h2>
+              <h2 className="text-xl font-semibold text-white">🧾 {"Billing & Payments"}</h2>
             </div>
 
             <div className="space-y-4">
@@ -385,7 +387,7 @@ export default function SettingsPage() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <FileText className="h-4 w-4" />
-                  {t("settings.btn.history")}
+                  {"Transaction History"}
                 </motion.button>
                 <motion.button
                   className="flex flex-1 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-3 font-medium text-slate-300 transition hover:border-cyan-400 hover:bg-cyan-400/10 hover:text-cyan-300"
@@ -393,7 +395,7 @@ export default function SettingsPage() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <Download className="h-4 w-4" />
-                  {t("settings.btn.download")}
+                  {"Download Payment Summary"}
                 </motion.button>
               </div>
             </div>
@@ -412,13 +414,13 @@ export default function SettingsPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500">
                 <HelpCircle className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-xl font-semibold text-white">💬 {t("settings.support")}</h2>
+              <h2 className="text-xl font-semibold text-white">💬 {"Support & Helpdesk"}</h2>
             </div>
 
             <div className="space-y-3">
               {[
-                t("settings.support.faq"),
-                t("settings.support.emergency"),
+                "Frequently Asked Questions",
+                "Emergency Medical Contact",
               ].map((item) => (
                 <motion.button
                   key={item}
@@ -435,7 +437,7 @@ export default function SettingsPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {t("settings.btn.getHelp")}
+                {"Get Help Now"}
               </motion.button>
             </div>
           </div>
@@ -454,9 +456,9 @@ export default function SettingsPage() {
                 <LogOut className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-white">🔄 {t("settings.logout")}</h2>
+                <h2 className="text-xl font-semibold text-white">🔄 {"Logout Section"}</h2>
                 <p className="text-sm text-slate-400">
-                  {t("settings.logout.desc")}
+                  {"For security, you're auto-logged out after inactivity."}
                 </p>
               </div>
             </div>
@@ -469,7 +471,7 @@ export default function SettingsPage() {
             >
               <div className="flex items-center justify-center gap-2">
                 <LogOut className="h-5 w-5" />
-                {t("settings.logoutBtn")}
+                {"Log Out Securely"}
               </div>
             </motion.button>
           </div>

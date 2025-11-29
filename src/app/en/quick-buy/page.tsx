@@ -14,7 +14,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
+
 
 interface CartItem {
   id: string;
@@ -103,7 +103,7 @@ const bundles = [
 ];
 
 export default function QuickBuyPage() {
-  const { t } = useLanguage();
+
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"UPI" | "Card" | "Cash" | null>(null);
@@ -160,12 +160,12 @@ export default function QuickBuyPage() {
 
   function getStockStatus(product: Product): string {
     if (product.stockStatus === "quickbuy.stock.left") {
-      return t("quickbuy.stock.left", { count: product.stock.toString() }).replace("{count}", product.stock.toString());
+      return `Only ${product.stock} left`;
     }
-    if (product.stockStatus) return t(product.stockStatus);
-    if (product.stock <= 3) return t("quickbuy.stock.left", { count: product.stock.toString() }).replace("{count}", product.stock.toString());
-    if (product.stock <= 5) return t("quickbuy.stock.low");
-    return t("quickbuy.stock.in");
+    if (product.stockStatus) return product.stockStatus;
+    if (product.stock <= 3) return `Only ${product.stock} left`;
+    if (product.stock <= 5) return "Low Stock";
+    return "In Stock";
   }
 
   function getStockColor(product: Product): string {
@@ -193,7 +193,7 @@ export default function QuickBuyPage() {
               className="inline-flex items-center gap-2 text-slate-300 transition hover:text-cyan-300"
             >
               <ArrowLeft className="h-5 w-5" />
-              <span>{t("quickbuy.back")}</span>
+              <span>{"Back to Dashboard"}</span>
             </Link>
 
             <motion.button
@@ -203,7 +203,7 @@ export default function QuickBuyPage() {
               whileTap={{ scale: 0.95 }}
             >
               <ShoppingCart className="h-5 w-5" />
-              <span>{t("quickbuy.cart")}</span>
+              <span>{"Cart"}</span>
               {cartCount > 0 && (
                 <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-cyan-400 text-xs font-bold text-slate-900">
                   {cartCount}
@@ -214,10 +214,10 @@ export default function QuickBuyPage() {
 
           <div className="space-y-2">
             <h1 className="text-3xl font-semibold text-white sm:text-4xl">
-              {t("quickbuy.title")}
+              {"What do you need right now?"}
             </h1>
             <p className="text-lg text-slate-300">
-              {t("quickbuy.subtitle")}
+              {"Choose from essential first-aid items below. No analysis, no wait - just pick and buy."}
             </p>
           </div>
         </motion.header>
@@ -235,8 +235,8 @@ export default function QuickBuyPage() {
                 <TrendingUp className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-white">🔥 {t("quickbuy.rec.title")}</h2>
-                <p className="text-sm text-slate-400">{t("quickbuy.rec.subtitle")}</p>
+                <h2 className="text-xl font-semibold text-white">🔥 {"Recommended for You"}</h2>
+                <p className="text-sm text-slate-400">{"Based on your past usage and common needs"}</p>
               </div>
             </div>
 
@@ -249,7 +249,7 @@ export default function QuickBuyPage() {
                 >
                   <div className="mb-2 flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-white">{t(product.name)}</h3>
+                      <h3 className="font-semibold text-white">{product.name}</h3>
                       <p className="text-lg font-bold text-cyan-400">₹{product.price}</p>
                     </div>
                   </div>
@@ -265,7 +265,7 @@ export default function QuickBuyPage() {
                     whileHover={product.stock > 0 ? { scale: 1.05 } : {}}
                     whileTap={product.stock > 0 ? { scale: 0.95 } : {}}
                   >
-                    {t("quickbuy.add")}
+                    {"Add to Cart"}
                   </motion.button>
                 </motion.div>
               ))}
@@ -285,7 +285,7 @@ export default function QuickBuyPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-red-400 to-rose-500">
                 <Package className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-xl font-semibold text-white">🩹 {t("quickbuy.wound.title")}</h2>
+              <h2 className="text-xl font-semibold text-white">🩹 {"Wound & Injury Care"}</h2>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -296,7 +296,7 @@ export default function QuickBuyPage() {
                   whileHover={{ y: -2 }}
                 >
                   <div className="flex-1">
-                    <h3 className="font-medium text-white">{t(product.name)}</h3>
+                    <h3 className="font-medium text-white">{product.name}</h3>
                     <div className="mt-1 flex items-center gap-2">
                       <span className="text-sm font-semibold text-cyan-400">₹{product.price}</span>
                       <span className={`text-xs ${getStockColor(product)}`}>
@@ -331,13 +331,13 @@ export default function QuickBuyPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-400 to-amber-500">
                 <Package className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-xl font-semibold text-white">🤒 {t("quickbuy.fever.title")}</h2>
+              <h2 className="text-xl font-semibold text-white">🤒 {"Fever & Pain Relief"}</h2>
             </div>
 
             <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
               <p className="text-sm text-amber-200">
                 <AlertCircle className="mr-2 inline h-4 w-4" />
-                {t("quickbuy.footer.2")}
+                {"Serious injury? Use 'Health Assistance' for guided help."}
               </p>
             </div>
 
@@ -349,7 +349,7 @@ export default function QuickBuyPage() {
                   whileHover={{ y: -2 }}
                 >
                   <div className="flex-1">
-                    <h3 className="font-medium text-white">{t(product.name)}</h3>
+                    <h3 className="font-medium text-white">{product.name}</h3>
                     <div className="mt-1 flex items-center gap-2">
                       <span className="text-sm font-semibold text-cyan-400">₹{product.price}</span>
                       <span className={`text-xs ${getStockColor(product)}`}>
@@ -384,7 +384,7 @@ export default function QuickBuyPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500">
                 <Package className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-xl font-semibold text-white">🧼 {t("quickbuy.hygiene.title")}</h2>
+              <h2 className="text-xl font-semibold text-white">🧼 {"Hygiene & Daily Needs"}</h2>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -395,7 +395,7 @@ export default function QuickBuyPage() {
                   whileHover={{ y: -2 }}
                 >
                   <div className="flex-1">
-                    <h3 className="font-medium text-white">{t(product.name)}</h3>
+                    <h3 className="font-medium text-white">{product.name}</h3>
                     <div className="mt-1 flex items-center gap-2">
                       <span className="text-sm font-semibold text-cyan-400">₹{product.price}</span>
                       <span className={`text-xs ${getStockColor(product)}`}>
@@ -431,8 +431,8 @@ export default function QuickBuyPage() {
                 <Sparkles className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-white">🌞 {t("quickbuy.seasonal.title")}</h2>
-                <p className="text-sm text-slate-400">{t("quickbuy.rec.subtitle")}</p>
+                <h2 className="text-xl font-semibold text-white">🌞 {"Seasonal Extras"}</h2>
+                <p className="text-sm text-slate-400">{"Based on your past usage and common needs"}</p>
               </div>
             </div>
 
@@ -444,7 +444,7 @@ export default function QuickBuyPage() {
                   whileHover={{ y: -2 }}
                 >
                   <div className="flex-1">
-                    <h3 className="font-medium text-white">{t(product.name)}</h3>
+                    <h3 className="font-medium text-white">{product.name}</h3>
                     <div className="mt-1 flex items-center gap-2">
                       <span className="text-sm font-semibold text-cyan-400">₹{product.price}</span>
                       <span className={`text-xs ${getStockColor(product)}`}>
@@ -479,7 +479,7 @@ export default function QuickBuyPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-400 to-pink-500">
                 <Package className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-xl font-semibold text-white">🧺 {t("quickbuy.bundles.title")}</h2>
+              <h2 className="text-xl font-semibold text-white">🧺 {"Bundles & Combos"}</h2>
             </div>
 
             <div className="grid gap-6 sm:grid-cols-3">
@@ -489,12 +489,12 @@ export default function QuickBuyPage() {
                   className="rounded-2xl border border-white/10 bg-gradient-to-br from-purple-500/10 to-pink-500/10 p-6 transition hover:border-cyan-300/50"
                   whileHover={{ y: -4 }}
                 >
-                  <h3 className="mb-2 text-lg font-semibold text-white">{t(bundle.name)}</h3>
-                  <p className="mb-3 text-sm text-slate-400">{t(bundle.description)}</p>
+                  <h3 className="mb-2 text-lg font-semibold text-white">{bundle.name}</h3>
+                  <p className="mb-3 text-sm text-slate-400">{bundle.description}</p>
                   <div className="mb-3 space-y-1">
                     {bundle.items.map((item) => (
                       <div key={item} className="text-xs text-slate-300">
-                        • {t(item)}
+                        • {item}
                       </div>
                     ))}
                   </div>
@@ -510,7 +510,7 @@ export default function QuickBuyPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {t("quickbuy.buyBundle")}
+                    {"Buy Bundle"}
                   </motion.button>
                 </motion.div>
               ))}
@@ -526,9 +526,9 @@ export default function QuickBuyPage() {
           transition={{ duration: 0.5, delay: 0.7 }}
         >
           <div className="space-y-2">
-            <p>• {t("quickbuy.footer.1")}</p>
-            <p>• {t("quickbuy.footer.2")}</p>
-            <p>• {t("quickbuy.footer.3")}</p>
+            <p>• {"OTC medicines only. No prescription drugs dispensed."}</p>
+            <p>• {"Serious injury? Use 'Health Assistance' for guided help."}</p>
+            <p>• {"Stock updates every 30 minutes."}</p>
           </div>
         </motion.footer>
       </div>
@@ -552,7 +552,7 @@ export default function QuickBuyPage() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
             >
               <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-2xl font-semibold text-white">{t("quickbuy.cart.title")}</h2>
+                <h2 className="text-2xl font-semibold text-white">{"Shopping Cart"}</h2>
                 <button
                   onClick={() => setShowCart(false)}
                   className="text-slate-400 transition hover:text-white"
@@ -564,7 +564,7 @@ export default function QuickBuyPage() {
               {cart.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <ShoppingCart className="mb-4 h-16 w-16 text-slate-600" />
-                  <p className="text-slate-400">{t("quickbuy.cart.empty")}</p>
+                  <p className="text-slate-400">{"Your cart is empty"}</p>
                 </div>
               ) : (
                 <>
@@ -575,7 +575,7 @@ export default function QuickBuyPage() {
                         className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4"
                       >
                         <div className="flex-1">
-                          <h3 className="font-medium text-white">{t(item.name)}</h3>
+                          <h3 className="font-medium text-white">{item.name}</h3>
                           <p className="text-sm text-cyan-400">₹{item.price} each</p>
                         </div>
                         <div className="flex items-center gap-3">
@@ -613,7 +613,7 @@ export default function QuickBuyPage() {
 
                   <div className="mt-6 border-t border-white/10 pt-6">
                     <div className="mb-4 flex items-center justify-between text-lg font-semibold text-white">
-                      <span>{t("quickbuy.cart.total")}:</span>
+                      <span>{"Total"}:</span>
                       <span className="text-cyan-400">₹{total}</span>
                     </div>
 
@@ -624,13 +624,13 @@ export default function QuickBuyPage() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        {t("quickbuy.cart.checkout")}
+                        {"Proceed to Checkout"}
                       </motion.button>
                     ) : (
                       <div className="space-y-4">
                         <div>
                           <p className="mb-3 text-sm font-medium text-slate-300">
-                            {t("quickbuy.cart.payment")}:
+                            {"Choose Payment Method"}:
                           </p>
                           <div className="space-y-2">
                             {(["UPI", "Card", "Cash"] as const).map((method) => (
@@ -644,7 +644,7 @@ export default function QuickBuyPage() {
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                               >
-                                {t(`payment.${method.toLowerCase()}`)}
+                                {method}
                               </motion.button>
                             ))}
                           </div>
@@ -665,7 +665,7 @@ export default function QuickBuyPage() {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
-                            {t("quickbuy.cart.complete")}
+                            {"Complete Purchase"}
                           </motion.button>
                         )}
                       </div>

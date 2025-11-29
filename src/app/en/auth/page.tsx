@@ -29,7 +29,7 @@ type AuthStatus =
 
 export default function AuthPage() {
   const router = useRouter();
-  const { refreshLanguage, t } = useLanguage();
+  const { refreshLanguage } = useLanguage();
   const [status, setStatus] = useState<AuthStatus>("idle");
   const [message, setMessage] = useState("");
   const [userName, setUserName] = useState("Student");
@@ -140,7 +140,7 @@ export default function AuthPage() {
       stopCamera();
 
       setStatus("captured");
-      setMessage(t("auth.msg.captured"));
+      setMessage("Image captured! Review and submit to verify.");
     } catch (error) {
       console.error("Error capturing image:", error);
       setMessage("Failed to capture image. Please try again.");
@@ -149,7 +149,7 @@ export default function AuthPage() {
 
   async function startCamera() {
     setStatus("requesting");
-    setMessage(t("auth.msg.requesting"));
+    setMessage("Requesting camera permission...");
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -163,12 +163,12 @@ export default function AuthPage() {
       }
 
       setStatus("ready");
-      setMessage(t("auth.scanner.instruction"));
+      setMessage("Tap Scan and point your card toward the camera");
     } catch (err: unknown) {
       console.error("Camera error:", err);
       setStatus("denied");
       setMessage(
-        t("auth.denied")
+        "Camera access blocked. Allow camera permission in settings or talk to campus admin."
       );
     }
   }
@@ -180,7 +180,7 @@ export default function AuthPage() {
     }
 
     setStatus("verifying");
-    setMessage(t("auth.msg.verifying"));
+    setMessage("Verifying student ID...");
     setVerificationFailed(false);
 
     try {
@@ -258,11 +258,11 @@ export default function AuthPage() {
     stopCamera();
 
     setStatus("success");
-    setMessage(t("auth.msg.success"));
+    setMessage("Verification Successful!");
     setShowVerifiedAnimation(true);
     setVerificationFailed(false);
     // Use first name from backend, or fallback to "Student" if not available
-    setUserName(firstName || t("dashboard.student"));
+    setUserName(firstName || "Student");
 
     // Navigate to dashboard after animation
     setTimeout(async () => {
@@ -314,7 +314,7 @@ export default function AuthPage() {
   function handleDevBypass() {
     setShowVerifiedAnimation(true);
     setStatus("success");
-    setMessage(t("auth.msg.success"));
+    setMessage("Verification Successful!");
     setUserName("Developer");
 
     setTimeout(() => {
@@ -347,7 +347,7 @@ export default function AuthPage() {
     // Convert to blob for submission
     setCapturedImageBlob(file);
     setStatus("captured");
-    setMessage(t("auth.msg.captured"));
+    setMessage("Image captured! Review and submit to verify.");
 
     // Reset file input
     if (fileInputRef.current) {
@@ -369,6 +369,20 @@ export default function AuthPage() {
         className="hidden"
         aria-label="Upload Student ID image"
       />
+
+      {/* Floating Upload Button (Dev Tool) */}
+      <motion.button
+        onClick={() => fileInputRef.current?.click()}
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg shadow-purple-500/50 transition hover:shadow-purple-400/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-300 opacity-20 hover:opacity-50"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        title="Upload ID Card (Dev Tool)"
+        aria-label="Upload ID card image for development"
+      >
+        <Upload className="h-6 w-6 text-white" />
+      </motion.button>
+
+
 
       {/* Verification Animation Overlay */}
       <AnimatePresence>
@@ -406,7 +420,7 @@ export default function AuthPage() {
                     transition={{ delay: 0.3 }}
                   >
                     <h2 className="text-3xl font-semibold text-white">
-                      {t("auth.msg.failed")}
+                      {"Verification Failed"}
                     </h2>
                     <p className="mt-2 text-lg text-slate-300">
                       {message || "Student ID not found in database."}
@@ -420,7 +434,7 @@ export default function AuthPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      {t("auth.msg.tryAgain")}
+                      {"Try Again"}
                     </motion.button>
                   </motion.div>
                 </>
@@ -476,13 +490,13 @@ export default function AuthPage() {
                     transition={{ delay: 0.3 }}
                   >
                     <h2 className="text-3xl font-semibold text-white">
-                      {t("auth.msg.success")}
+                      {"Verification Successful!"}
                     </h2>
                     <p className="mt-2 text-lg text-slate-300">
-                      {t("auth.msg.welcome")}{userName}!
+                      {"Welcome, "}{userName}!
                     </p>
                     <p className="mt-4 text-sm text-slate-400">
-                      {t("auth.msg.redirect")}
+                      {"Redirecting to dashboard..."}
                     </p>
                   </motion.div>
                 </>
@@ -506,12 +520,12 @@ export default function AuthPage() {
             className="group flex items-center gap-2 text-slate-300 transition hover:text-cyan-300"
           >
             <ArrowLeft className="h-5 w-5 transition group-hover:-translate-x-1" />
-            <span className="text-sm">{t("auth.back")}</span>
+            <span className="text-sm">{"Back"}</span>
           </Link>
           <div className="flex-1" />
           <div className="flex items-center gap-2 text-sm text-slate-400">
             <Shield className="h-4 w-4 text-cyan-400" />
-            <span>{t("auth.secure")}</span>
+            <span>{"Secure Verification"}</span>
           </div>
         </motion.header>
 
@@ -526,10 +540,10 @@ export default function AuthPage() {
             {/* Title Section */}
             <div className="mb-8 text-center">
               <h1 className="mb-3 text-3xl font-semibold text-white sm:text-4xl">
-                {t("auth.title")}
+                {"Verify Your Identity to Continue"}
               </h1>
               <p className="text-lg text-slate-300">
-                {t("auth.subtitle")}
+                {"Scan your Student ID — it helps us give you a personalized experience."}
               </p>
             </div>
 
@@ -571,10 +585,10 @@ export default function AuthPage() {
                         </div>
                         <div>
                           <p className="font-medium text-slate-200">
-                            {t("auth.scanner.ready")}
+                            {"Scanner Ready"}
                           </p>
                           <p className="mt-1 text-sm text-slate-400">
-                            {t("auth.scanner.instruction")}
+                            {"Tap Scan and point your card toward the camera"}
                           </p>
                         </div>
                       </div>
@@ -601,7 +615,7 @@ export default function AuthPage() {
                             {/* Guide Text */}
                             <div className="absolute inset-0 flex items-end justify-center pb-2">
                               <span className="rounded bg-white/90 px-3 py-1 text-xs font-medium text-slate-900 shadow-lg">
-                                {t("auth.scanner.align")}
+                                {"Align Student ID Card Here"}
                               </span>
                             </div>
                           </div>
@@ -639,7 +653,7 @@ export default function AuthPage() {
                             ease: "linear",
                           }}
                         />
-                        <p className="text-lg font-medium text-white">{t("auth.verifying")}</p>
+                        <p className="text-lg font-medium text-white">{"Verifying..."}</p>
                       </div>
                     </motion.div>
                   )}
@@ -656,7 +670,7 @@ export default function AuthPage() {
                         <AlertCircle className="h-10 w-10" />
                       </div>
                       <div className="text-center text-sm">
-                        {t("auth.denied")}
+                        {"Camera access blocked. Allow camera permission in settings or talk to campus admin."}
                       </div>
                     </motion.div>
                   )}
@@ -667,16 +681,16 @@ export default function AuthPage() {
               <div className="mb-6 space-y-3 text-sm text-slate-300">
                 <div className="flex items-start gap-2">
                   <span className="mt-0.5 text-cyan-400">1.</span>
-                  <span>{t("auth.step1")}</span>
+                  <span>{"Hold your Student ID card inside the frame, aligning it with the corner guides."}</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="mt-0.5 text-cyan-400">2.</span>
-                  <span>{t("auth.step2")}</span>
+                  <span>{"Ensure the card is flat and the barcode/ID number is clearly visible."}</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="mt-0.5 text-cyan-400">3.</span>
                   <span>
-                    {t("auth.step3")}
+                    Tap &quot;Capture Image&quot; to take the photo, then tap &quot;Submit for Verification&quot; to verify your ID.
                   </span>
                 </div>
               </div>
@@ -690,17 +704,17 @@ export default function AuthPage() {
               >
                 <div className="mb-2 flex items-center gap-2 text-sm font-medium text-amber-300">
                   <HelpCircle className="h-4 w-4" />
-                  {t("auth.tips.title")}
+                  {"Helpful Tips"}
                 </div>
                 <ul className="space-y-1 text-xs text-amber-200/90">
                   <li>
-                    • {t("auth.tips.1")}
+                    • {"If barcode isn't reading: clean the card, increase ambient light, or try rotating the card 90°."}
                   </li>
                   <li>
-                    • {t("auth.tips.2")}
+                    • {"Don't have your card? Contact campus admin for verification assistance."}
                   </li>
                   <li>
-                    • {t("auth.tips.3")}
+                    • {"We only store a masked ID token for audits — we don't save your full ID number."}
                   </li>
                 </ul>
               </motion.div>
@@ -716,7 +730,7 @@ export default function AuthPage() {
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       <Camera className="h-5 w-5" />
-                      {t("auth.btn.start")}
+                      {"Start Camera"}
                     </span>
                     <span className="absolute inset-0 bg-white/20 opacity-0 transition group-hover:opacity-100" />
                   </motion.button>
@@ -731,7 +745,7 @@ export default function AuthPage() {
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       <Camera className="h-5 w-5" />
-                      {t("auth.btn.capture")}
+                      {"Capture Image"}
                     </span>
                     <span className="absolute inset-0 bg-white/20 opacity-0 transition group-hover:opacity-100" />
                   </motion.button>
@@ -747,7 +761,7 @@ export default function AuthPage() {
                     >
                       <span className="relative z-10 flex items-center justify-center gap-2">
                         <CheckCircle2 className="h-5 w-5" />
-                        {t("auth.btn.submit")}
+                        {"Submit for Verification"}
                       </span>
                       <span className="absolute inset-0 bg-white/20 opacity-0 transition group-hover:opacity-100" />
                     </motion.button>
@@ -757,7 +771,7 @@ export default function AuthPage() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      {t("auth.btn.retake")}
+                      {"Retake Photo"}
                     </motion.button>
                   </div>
                 )}
@@ -774,7 +788,7 @@ export default function AuthPage() {
                       }}
                     />
                     <span className="text-base font-medium text-slate-300">
-                      {t("auth.msg.requesting")}
+                      {"Requesting camera permission..."}
                     </span>
                   </div>
                 )}
@@ -784,7 +798,7 @@ export default function AuthPage() {
                     onClick={() => setShowHelp(!showHelp)}
                     className="w-full text-center text-sm text-cyan-400 underline transition hover:text-cyan-300"
                   >
-                    {t("auth.btn.help")}
+                    {"Need Help?"}
                   </button>
                 )}
               </div>
