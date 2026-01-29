@@ -360,16 +360,7 @@ export default function AuthPage() {
     }
   }
 
-  function handleDevBypass() {
-    handleVerificationSuccess("DEMO-JURY-BYPASS", "Jury Member", {
-      uid: "DEMO-JURY-BYPASS",
-      fullName: "Jury Member",
-      name: "Jury Member",
-      age: 0,
-      allergy: "None",
-      number: "0000000000"
-    });
-  }
+
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
@@ -386,34 +377,7 @@ export default function AuthPage() {
         aria-label="Upload Student ID image"
       />
 
-      {/* Demo Bypass Button - Visible for Jury Presentation */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
-        <motion.div
-          className="rounded-lg bg-amber-500/20 border border-amber-500/40 px-3 py-1.5 backdrop-blur-sm"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1, duration: 0.5 }}
-        >
-          <p className="text-xs text-amber-200 font-medium">
-            👇 For Jury: Skip Authentication
-          </p>
-        </motion.div>
-        <motion.button
-          onClick={handleDevBypass}
-          className="group relative overflow-hidden rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-3 shadow-lg shadow-amber-500/50 transition-all hover:shadow-xl hover:shadow-amber-500/60 hover:scale-105"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
-        >
-          <span className="relative z-10 flex items-center gap-2 text-sm font-bold text-white">
-            <Shield className="h-4 w-4" />
-            Demo Bypass
-          </span>
-          <span className="absolute inset-0 bg-white/20 opacity-0 transition group-hover:opacity-100" />
-        </motion.button>
-      </div>
+
 
 
 
@@ -541,24 +505,7 @@ export default function AuthPage() {
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-4xl flex-col px-4 py-8 sm:px-6 lg:px-8">
         {/* Jury Information Banner */}
-        <motion.div
-          className="mb-6 rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/20 to-orange-500/20 p-4 backdrop-blur-sm"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/30">
-              <AlertCircle className="h-5 w-5 text-amber-300" />
-            </div>
-            <div className="flex-1">
-              <h3 className="mb-1 font-semibold text-amber-200">Prototype Demo Mode</h3>
-              <p className="text-sm text-amber-100/90">
-                <strong>For Jury Members:</strong> You can use the <strong>&quot;Demo Bypass&quot;</strong> button (bottom-right corner) to skip the authentication process and proceed directly to the dashboard.
-              </p>
-            </div>
-          </div>
-        </motion.div>
+
         {/* Header */}
         <motion.header
           className="mb-8 flex items-center gap-4"
